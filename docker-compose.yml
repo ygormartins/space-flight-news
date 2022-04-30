@@ -1,0 +1,20 @@
+version: "3.7"
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    image: space-flight-news-client
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./client:/app
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    image: space-flight-news-api
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./api:/app
