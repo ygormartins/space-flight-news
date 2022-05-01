@@ -1,7 +1,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { HIDDEN_FIELDS } from 'src/constants/schema';
 import { v4 as uuidv4 } from 'uuid';
+import { HIDDEN_FIELDS } from 'src/constants/schema';
+import { LaunchtDto } from './dto/launch.dto';
+import { EventDto } from './dto/event.dto';
+import {
+  IsArray,
+  IsBoolean,
+  IsDateString,
+  IsString,
+  IsUrl,
+} from 'class-validator';
 
 export type ArticleDocument = Article & Document;
 
@@ -41,6 +50,12 @@ export class Article {
 
   @Prop({ type: Date, required: true })
   publishedAt: Date;
+
+  @Prop({ type: Array, default: [] })
+  launches: LaunchtDto[];
+
+  @Prop({ type: Array, default: [] })
+  events: EventDto[];
 
   @Prop({ type: Boolean, default: false })
   featured: boolean;

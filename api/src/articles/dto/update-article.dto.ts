@@ -1,10 +1,13 @@
 import {
+  IsArray,
   IsBoolean,
-  IsDate,
+  IsDateString,
   IsOptional,
   IsString,
   IsUrl,
 } from 'class-validator';
+import { EventDto } from './event.dto';
+import { LaunchtDto } from './launch.dto';
 
 export class UpdateArticleDto {
   @IsString()
@@ -27,9 +30,17 @@ export class UpdateArticleDto {
   @IsOptional()
   readonly summary?: string;
 
-  @IsDate()
+  @IsDateString()
   @IsOptional()
   readonly publishedAt?: Date;
+
+  @IsArray()
+  @IsOptional()
+  readonly launches?: LaunchtDto[];
+
+  @IsArray()
+  @IsOptional()
+  readonly events?: EventDto[];
 
   @IsBoolean()
   @IsOptional()
