@@ -14,15 +14,18 @@ export class CreateArticleDto {
   readonly title: string;
 
   @IsUrl()
+  @IsOptional()
   readonly url: string;
 
   @IsUrl()
+  @IsOptional()
   readonly imageUrl: string;
 
   @IsString()
   readonly newsSite: string;
 
   @IsString()
+  @IsOptional()
   readonly summary: string;
 
   @IsDateString()

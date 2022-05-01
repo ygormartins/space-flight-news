@@ -29,16 +29,16 @@ export class Article {
   @Prop({ type: String, text: true, required: true })
   title: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   url: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   imageUrl: string;
 
   @Prop({ type: String, required: true })
   newsSite: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   summary: string;
 
   @Prop({ type: Date, required: true })
