@@ -4,13 +4,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { HIDDEN_FIELDS } from 'src/constants/schema';
 import { LaunchtDto } from './dto/launch.dto';
 import { EventDto } from './dto/event.dto';
-import {
-  IsArray,
-  IsBoolean,
-  IsDateString,
-  IsString,
-  IsUrl,
-} from 'class-validator';
 
 export type ArticleDocument = Article & Document;
 
@@ -61,10 +54,14 @@ export class Article {
   featured: boolean;
 }
 
-export const ArticleSchema = SchemaFactory.createForClass(Article).pre(
-  'save',
-  function (next) {
+export const ArticleSchema = SchemaFactory.createForClass(Article)
+  .pre('save', function (next) {
     this.id = uuidv4();
     next();
-  },
-);
+  })
+  .pre('insertMany', function (next, docs) {
+    for (const doc of docs) {
+      doc.id = uuidv4();
+    }
+    next();
+  });
