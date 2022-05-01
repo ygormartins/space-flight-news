@@ -16,6 +16,7 @@ export class ArticlesService {
   ) {}
 
   SPACE_FLIGHT_NEWS_API = this.configService.get('SPACE_FLIGHT_NEWS_API');
+  RESPONSE_LIMIT = this.configService.get('FETCH_NEW_ARTICLES_LIMIT');
 
   async getArticles(): Promise<ArticleDocument[]> {
     return await this.articleModel.find();
@@ -45,7 +46,7 @@ export class ArticlesService {
 
   async fetchNewArticles(): Promise<any> {
     const params = {
-      _limit: 100,
+      _limit: this.RESPONSE_LIMIT,
       _sort: 'publishedAt:desc',
     };
 
