@@ -25,11 +25,6 @@ export class ArticlesController {
     return this.articlesService.getArticles();
   }
 
-  @Get('test')
-  findNewArticles() {
-    return this.articlesService.fetchNewArticles();
-  }
-
   @Get(':id')
   findOne(@Param('id') articleId: string) {
     return this.articlesService.getArticle(articleId);

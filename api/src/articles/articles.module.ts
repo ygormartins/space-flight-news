@@ -12,5 +12,6 @@ import { ConfigModule } from 'src/config/config.module';
   ],
   controllers: [ArticlesController],
   providers: [ArticlesService],
+  exports: [ArticlesService],
 })
 export class ArticlesModule {}
