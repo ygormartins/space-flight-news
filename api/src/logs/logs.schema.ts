@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { HIDDEN_FIELDS } from 'src/constants/schema';
 import mongoose from 'mongoose';
 
-export type LogDocument = Log & Document;
+type LogDocument = Log & Document;
 
 @Schema({
   timestamps: true,
@@ -16,7 +16,7 @@ export type LogDocument = Log & Document;
     },
   },
 })
-export class Log {
+class Log {
   @Prop({
     type: String,
     unique: true,
@@ -36,14 +36,18 @@ export class Log {
   params: any;
 }
 
-export const LogSchema = SchemaFactory.createForClass(Log)
-  .pre('save', function (next) {
-    this.id = uuidv4();
-    next();
-  })
-  .pre('insertMany', function (next, docs) {
-    for (const doc of docs) {
-      doc.id = uuidv4();
-    }
-    next();
-  });
+const LogSchema = SchemaFactory.createForClass(Log);
+
+LogSchema.pre('save', function (next) {
+  this.id = uuidv4();
+  next();
+});
+
+LogSchema.pre('insertMany', function (next, docs) {
+  for (const doc of docs) {
+    doc.id = uuidv4();
+  }
+  next();
+});
+
+export { LogDocument, Log, LogSchema };

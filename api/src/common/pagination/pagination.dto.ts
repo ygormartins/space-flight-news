@@ -4,10 +4,10 @@ import {
   IsInt,
   IsObject,
   IsOptional,
+  IsString,
   Min,
 } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
-import { AnyTxtRecord } from 'dns';
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_LIMIT = 10;
@@ -25,24 +25,24 @@ export class PaginationDTO {
   @IsOptional()
   page?: number = DEFAULT_PAGE;
 
+  @Transform(({ value }) => JSON.parse(value))
   @IsObject()
   @IsOptional()
   sort?: any = {};
 
+  @Transform(({ value }) => JSON.parse(value))
   @IsObject()
   @IsOptional()
   filter?: any = {};
 
+  @Type(() => String)
   @IsArray()
   @IsOptional()
   fields?: string[] = [];
 
-  @Transform((value) => {
-    return Boolean(value);
-  })
-  @IsBoolean()
+  @IsString()
   @IsOptional()
-  notPaginated?: boolean = false;
+  q: string;
 }
 
 export class PaginatedQuery {

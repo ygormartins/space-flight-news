@@ -30,8 +30,10 @@ export class ArticlesService {
       .limit(limit);
   }
 
-  async getArticlesCount(): Promise<number> {
-    return await this.articleModel.count();
+  async getArticlesCount(query: PaginationDTO): Promise<number> {
+    const { filter } = buildPaginationQuery(query);
+
+    return await this.articleModel.count(filter);
   }
 
   async getArticle(articleId: string): Promise<ArticleDocument> {

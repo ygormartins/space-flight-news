@@ -5,7 +5,7 @@ import { HIDDEN_FIELDS } from 'src/constants/schema';
 import { LaunchtDto } from './dto/launch.dto';
 import { EventDto } from './dto/event.dto';
 
-export type ArticleDocument = Article & Document;
+type ArticleDocument = Article & Document;
 
 @Schema({
   toJSON: {
@@ -16,7 +16,7 @@ export type ArticleDocument = Article & Document;
     },
   },
 })
-export class Article {
+class Article {
   @Prop({
     type: String,
     unique: true,
@@ -26,7 +26,7 @@ export class Article {
   })
   id: string;
 
-  @Prop({ type: String, text: true, required: true })
+  @Prop({ type: String, required: true })
   title: string;
 
   @Prop({ type: String })
@@ -54,14 +54,24 @@ export class Article {
   featured: boolean;
 }
 
-export const ArticleSchema = SchemaFactory.createForClass(Article)
-  .pre('save', function (next) {
-    this.id = uuidv4();
-    next();
-  })
-  .pre('insertMany', function (next, docs) {
-    for (const doc of docs) {
-      doc.id = uuidv4();
-    }
-    next();
-  });
+const ArticleSchema = SchemaFactory.createForClass(Article);
+
+ArticleSchema.index({
+  title: 'text',
+  summary: 'text',
+  newsSite: 'text',
+});
+
+ArticleSchema.pre('save', function (next) {
+  this.id = uuidv4();
+  next();
+});
+
+ArticleSchema.pre('insertMany', function (next, docs) {
+  for (const doc of docs) {
+    doc.id = uuidv4();
+  }
+  next();
+});
+
+export { Article, ArticleDocument, ArticleSchema };

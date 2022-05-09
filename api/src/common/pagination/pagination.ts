@@ -25,7 +25,13 @@ export const paginated = async (
 };
 
 export const buildPaginationQuery = (query: PaginationDTO): PaginatedQuery => {
-  const { filter, sort, fields, limit, page } = query;
+  const { filter, sort, fields, limit, page, q } = query;
+
+  if (q) {
+    filter['$text'] = {
+      $search: q,
+    };
+  }
 
   const project = {};
 

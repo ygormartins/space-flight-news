@@ -27,7 +27,7 @@ export class ArticlesController {
     return paginated(
       query,
       (args: PaginationDTO) => this.articlesService.getArticles(args),
-      (args: PaginationDTO) => this.articlesService.getArticlesCount(),
+      (args: PaginationDTO) => this.articlesService.getArticlesCount(args),
     );
   }
 
