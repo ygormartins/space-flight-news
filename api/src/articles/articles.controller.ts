@@ -6,7 +6,9 @@ import {
   Put,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
+import { paginated, PaginationDTO } from 'src/common/pagination';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
@@ -21,8 +23,12 @@ export class ArticlesController {
   }
 
   @Get()
-  findAll() {
-    return this.articlesService.getArticles();
+  findAll(@Query() query: PaginationDTO) {
+    return paginated(
+      query,
+      (args: PaginationDTO) => this.articlesService.getArticles(args),
+      (args: PaginationDTO) => this.articlesService.getArticlesCount(),
+    );
   }
 
   @Get(':id')

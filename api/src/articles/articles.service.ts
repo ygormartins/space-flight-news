@@ -6,6 +6,8 @@ import { UpdateArticleDto } from './dto/update-article.dto';
 import { Article, ArticleDocument } from './articles.schema';
 import { ConfigService } from '../config/config.service';
 import axios from 'axios';
+import { PaginationDTO } from 'src/common/pagination';
+import { buildPaginationQuery } from 'src/common/pagination/pagination';
 
 @Injectable()
 export class ArticlesService {
@@ -18,8 +20,18 @@ export class ArticlesService {
   SPACE_FLIGHT_NEWS_API = this.configService.get('SPACE_FLIGHT_NEWS_API');
   RESPONSE_LIMIT = this.configService.get('FETCH_NEW_ARTICLES_LIMIT');
 
-  async getArticles(): Promise<ArticleDocument[]> {
-    return await this.articleModel.find();
+  async getArticles(query: PaginationDTO): Promise<ArticleDocument[]> {
+    const { filter, project, sort, skip, limit } = buildPaginationQuery(query);
+
+    return await this.articleModel
+      .find(filter, project)
+      .sort(sort)
+      .skip(skip)
+      .limit(limit);
+  }
+
+  async getArticlesCount(): Promise<number> {
+    return await this.articleModel.count();
   }
 
   async getArticle(articleId: string): Promise<ArticleDocument> {
