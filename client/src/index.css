@@ -32,7 +32,9 @@
   }
 
   .primary-btn:hover,
-  .secondary-btn:hover {
+  .primary-btn:focus,
+  .secondary-btn:hover,
+  .secondary-btn:focus {
     opacity: 0.7;
   }
 
@@ -45,3 +47,4 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined');
